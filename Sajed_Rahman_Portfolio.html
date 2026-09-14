@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sajed Rahman — CSE Undergraduate &amp; Competitive Programmer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f7f7f4;
+    --paper-dim:#efeeea;
+    --ink:#14202b;
+    --muted:#5b6672;
+    --accent:#1e7f5c;
+    --accent-warm:#c9862e;
+    --line:#e0dfda;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    background-image:
+      radial-gradient(var(--line) 1px, transparent 1px);
+    background-size: 26px 26px;
+    background-position: -6px -6px;
+  }
+
+  ::selection{ background:var(--accent); color:var(--paper); }
+
+  a{ color:var(--ink); text-decoration-color: var(--line); text-underline-offset:3px; }
+  a:hover{ color:var(--accent); text-decoration-color: var(--accent); }
+
+  .mono{ font-family:'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  /* ---------- top bar ---------- */
+  header.top{
+    position:sticky; top:0; z-index:20;
+    background:rgba(247,247,244,0.88);
+    backdrop-filter:saturate(140%) blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .top-inner{
+    max-width:760px; margin:0 auto; padding:14px 28px;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px;
+  }
+  .top-inner .brand{
+    font-weight:600; font-size:15px; letter-spacing:0.2px;
+  }
+  nav.tabs{ display:flex; gap:18px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--muted); }
+  nav.tabs a{ color:var(--muted); text-decoration:none; }
+  nav.tabs a:hover{ color:var(--accent); }
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:64px 0 40px;
+    display:grid;
+    grid-template-columns: 1fr auto;
+    gap:32px;
+    align-items:start;
+  }
+  h1.name{
+    font-size:clamp(32px, 5vw, 44px);
+    font-weight:700;
+    margin:0 0 6px;
+    letter-spacing:-0.01em;
+  }
+  .role-line{
+    color:var(--muted);
+    font-size:16px;
+    margin:0 0 18px;
+  }
+  .pitch{
+    max-width:52ch;
+    font-size:16px;
+    margin:0 0 20px;
+  }
+  .contact-row{
+    display:flex; flex-wrap:wrap; gap:6px 14px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    color:var(--muted);
+  }
+  .contact-row a{ color:var(--muted); }
+  .contact-row a:hover{ color:var(--accent); }
+  .contact-row span.dot{ color:var(--line); }
+
+  /* rating badge — the one bold centerpiece */
+  .rating-card{
+    justify-self:end;
+    border:1px solid var(--ink);
+    border-radius:10px;
+    background:var(--ink);
+    color:var(--paper);
+    padding:16px 18px;
+    min-width:230px;
+    max-width:260px;
+    opacity:0;
+    transform:translateY(6px);
+    animation: rise 0.6s ease-out 0.15s forwards;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .rating-card{ animation:none; opacity:1; transform:none; }
+  }
+  @keyframes rise{ to{ opacity:1; transform:translateY(0); } }
+  .rating-card .row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    padding:5px 0;
+  }
+  .rating-card .row + .row{ border-top:1px solid rgba(247,247,244,0.14); }
+  .rating-card .row.award-row{ display:block; line-height:1.5; }
+  .rating-card .row.award-row .val{ font-size:11.5px; }
+  .rating-card .plat{ color:rgba(247,247,244,0.6); }
+  .rating-card .val{ color:var(--paper); font-weight:500; }
+  .rating-card .val.up{ color:#7fd6ae; }
+
+  /* ---------- sections ---------- */
+  section{ padding:36px 0; border-top:1px solid var(--line); }
+  section:first-of-type{ border-top:none; }
+
+  h2.h{
+    font-size:22px;
+    font-weight:600;
+    margin:0 0 4px;
+    display:inline-block;
+  }
+  h2.h::after{
+    content:"";
+    display:block;
+    width:34px; height:3px;
+    background:var(--accent);
+    margin-top:8px;
+  }
+  .section-intro{ color:var(--muted); font-size:14.5px; margin:14px 0 22px; max-width:56ch; }
+
+  /* spec-sheet style rows (skills) */
+  .spec{ display:grid; grid-template-columns: 140px 1fr; gap:8px 18px; font-size:15px; }
+  .spec dt{ color:var(--muted); font-family:'IBM Plex Mono',monospace; font-size:12.5px; padding-top:2px; }
+  .spec dd{ margin:0; padding-bottom:10px; }
+
+  /* timeline rows: date | content (experience/education/volunteering) */
+  .tl-row{
+    display:grid;
+    grid-template-columns: 130px 1fr;
+    gap:6px 20px;
+    padding:16px 0;
+  }
+  .tl-row + .tl-row{ border-top:1px dashed var(--line); }
+  .tl-date{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); padding-top:3px; }
+  .tl-title{ font-weight:600; font-size:16px; margin:0 0 2px; }
+  .tl-org{ color:var(--muted); font-size:14px; margin:0 0 8px; }
+  .tl-org .tag{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--accent-warm); border:1px solid var(--accent-warm); padding:1px 6px; margin-left:8px; }
+  ul.bullets{ margin:0; padding-left:18px; font-size:14.5px; }
+  ul.bullets li{ margin-bottom:4px; }
+  ul.bullets li::marker{ color:var(--accent); }
+
+  /* projects */
+  .proj{ padding:18px 0; }
+  .proj + .proj{ border-top:1px dashed var(--line); }
+  .proj-head{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap; }
+  .proj-head h3{ font-size:17px; margin:0; font-weight:600; }
+  .proj-date{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); }
+  .proj-desc{ color:var(--muted); font-size:14.5px; margin:4px 0 10px; }
+  .proj-meta{ font-size:13px; margin-top:10px; }
+  .proj-meta .mono{ color:var(--muted); }
+  .proj-meta a{ font-family:'IBM Plex Mono',monospace; font-size:12.5px; }
+
+  /* cp stat strip */
+  .cp-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:18px; }
+  .cp-item{ border:1px solid var(--line); padding:14px 16px; }
+  .cp-item .plat{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; }
+  .cp-item .handle{ font-family:'IBM Plex Mono',monospace; font-size:15px; margin:6px 0 2px; }
+  .cp-item .stat{ font-size:13.5px; color:var(--muted); }
+  .cp-note{ font-size:14px; color:var(--muted); }
+  .award{ margin-top:14px; font-size:14.5px; padding:10px 14px; border-left:2px solid var(--accent-warm); background:var(--paper-dim); }
+
+  /* certifications */
+  .cert-list{ list-style:none; margin:0; padding:0; font-size:14.5px; }
+  .cert-list li{ padding:8px 0; display:flex; gap:10px; }
+  .cert-list li + li{ border-top:1px dashed var(--line); }
+  .cert-list li::before{ content:"·"; color:var(--accent); font-weight:700; }
+
+  footer{
+    padding:40px 0 60px;
+    color:var(--muted);
+    font-size:13.5px;
+  }
+  footer .foot-row{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:14px; align-items:baseline; }
+  footer a{ color:var(--muted); }
+  footer a:hover{ color:var(--accent); }
+
+  @media (max-width:640px){
+    .hero{ grid-template-columns:1fr; }
+    .rating-card{ justify-self:start; width:100%; }
+    .spec{ grid-template-columns:1fr; }
+    .spec dt{ padding-top:0; }
+    .tl-row{ grid-template-columns:1fr; }
+    nav.tabs{ display:none; }
+    .cp-grid{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">Sajed Rahman</div>
+    <nav class="tabs">
+      <a href="#about">about</a>
+      <a href="#projects">projects</a>
+      <a href="#cp">cp</a>
+      <a href="#experience">experience</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" style="border-top:none;">
+    <div>
+      <h1 class="name">Sajed Rahman</h1>
+      <p class="role-line">Undergraduate CSE student, competitive programmer, and Android developer — Rangpur, Bangladesh</p>
+      <p class="pitch">I think in algorithms and build fearlessly. Most days split between chasing Codeforces ratings and shipping small Kotlin apps that solve a real, specific problem.</p>
+      <div class="contact-row">
+        <a href="mailto:sajedrahman.work@gmail.com">sajedrahman.work@gmail.com</a>
+        <span class="dot">/</span>
+        <a href="https://www.linkedin.com/in/sajedrahmanorpo" target="_blank" rel="noopener">linkedin.com/in/sajedrahmanorpo</a>
+        <span class="dot">/</span>
+        <a href="https://github.com/sajedrahmanorpo" target="_blank" rel="noopener">github.com/sajedrahmanorpo</a>
+      </div>
+    </div>
+    <div class="rating-card mono" aria-label="Competitive programming ratings">
+      <div class="row"><span class="plat">codeforces</span><span class="val">newbie · 1155</span></div>
+      <div class="row"><span class="plat">codechef</span><span class="val up">2★ rated</span></div>
+      <div class="row award-row"><span class="val">first CP champion — CSE FEST Tejgaon '24</span></div>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2 class="h">About</h2>
+    <p class="section-intro" style="max-width:60ch;">
+      Currently pursuing a B.Sc. (Hons) in Computer Science and Engineering at Delta Computer Science College, Rangpur. Outside coursework, I do Android and web development, grind competitive programming, teach ICT, and occasionally write about computer science and technology. Off-screen: four years as lead side drummer in my school's marching band.
+    </p>
+  </section>
+
+  <section id="skills">
+    <h2 class="h">Skills</h2>
+    <dl class="spec" style="margin-top:18px;">
+      <dt>languages</dt><dd>C++, Kotlin, SQL</dd>
+      <dt>development</dt><dd>Android app development, web development</dd>
+      <dt>focus areas</dt><dd>Competitive programming, data analysis, artificial intelligence</dd>
+      <dt>leadership</dt><dd>Leadership, time management, community service</dd>
+    </dl>
+  </section>
+
+  <section id="projects">
+    <h2 class="h">Projects</h2>
+
+    <div class="proj">
+      <div class="proj-head">
+        <h3>UCL Match Predictor</h3>
+        <span class="proj-date">Jul – Sep 2026</span>
+      </div>
+      <p class="proj-desc">Logic-driven Kotlin application to analyze and predict UEFA Champions League match outcomes.</p>
+      <ul class="bullets">
+        <li>Custom predictor engine — prediction algorithms and business logic for score estimates</li>
+        <li>REST API client pulling real-time football data, wired into a clean, strongly-typed architecture</li>
+      </ul>
+      <p class="proj-meta"><span class="mono">Kotlin · REST APIs</span> — <a href="https://github.com/sajedrahmanorpo/My_UCL_Match_Predictor" target="_blank" rel="noopener">github.com/sajedrahmanorpo/My_UCL_Match_Predictor</a></p>
+    </div>
+
+    <div class="proj">
+      <div class="proj-head">
+        <h3>Tic-Tac-Toe Game (C++)</h3>
+        <span class="proj-date">Mar – Oct 2025</span>
+      </div>
+      <p class="proj-desc">CLI-based Tic-Tac-Toe with an unbeatable AI opponent — my first project.</p>
+      <ul class="bullets">
+        <li>Minimax decision-tree search evaluating all board states for optimal play</li>
+        <li>Interactive flow with move validation, dynamic board rendering, and replay, built with modular C++ functions</li>
+      </ul>
+      <p class="proj-meta"><span class="mono">C++ · Data Structures</span> — <a href="https://github.com/sajedrahmanorpo/Tic_Tac_Toe_Game" target="_blank" rel="noopener">github.com/sajedrahmanorpo/Tic_Tac_Toe_Game</a></p>
+    </div>
+  </section>
+
+  <section id="cp">
+    <h2 class="h">Competitive programming</h2>
+    <div class="cp-grid" style="margin-top:18px;">
+      <div class="cp-item">
+        <div class="plat">Codeforces</div>
+        <div class="handle">sajedrahman</div>
+        <div class="stat">Newbie · max rating 1155</div>
+      </div>
+      <div class="cp-item">
+        <div class="plat">CodeChef</div>
+        <div class="handle">sajedrahman</div>
+        <div class="stat">2★ rated</div>
+      </div>
+    </div>
+    <p class="cp-note">Also active on GitHub and LeetCode under the same handle.</p>
+    <p class="award">First-ever Competitive Programming Champion — <strong>CSE FEST Tejgaon 2024</strong></p>
+  </section>
+
+  <section id="experience">
+    <h2 class="h">Experience</h2>
+    <div class="tl-row" style="margin-top:14px;">
+      <div class="tl-date">Sep – Oct<br>2026</div>
+      <div>
+        <p class="tl-title">Mobile Application Developer</p>
+        <p class="tl-org">CodeAlpha — remote, distributed team (Lucknow)</p>
+        <ul class="bullets">
+          <li>Hands-on mobile app development through practical, project-based tasks</li>
+          <li>Applied core programming and problem-solving skills to design and improve app features</li>
+          <li>Maintained professional communication and met deadlines in a fully remote team</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <h2 class="h">Education</h2>
+    <div style="margin-top:14px;">
+      <div class="tl-row">
+        <div class="tl-date">2023 –<br>2027</div>
+        <div>
+          <p class="tl-title">B.Sc. (Hons), Computer Science &amp; Engineering</p>
+          <p class="tl-org">Delta Computer Science College, Rangpur <span class="tag">expected</span></p>
+          <p class="proj-desc" style="margin-top:-4px;">Coursework: data structures &amp; algorithms, DBMS, computer architecture &amp; microprocessors, numerical methods, assembly language.</p>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">2008 –<br>2021</div>
+        <div>
+          <p class="tl-title">PSC · JSC · SSC · HSC, Science Group</p>
+          <p class="tl-org">Bir Uttam Shaheed Samad School and College, Rangpur Cantonment <span class="tag">GPA 5.00</span></p>
+          <p class="proj-desc" style="margin-top:-4px;">13 years of continuous schooling at the same institute — one of only two students in the batch to do the entire stretch. Activities: Bangladesh Scouts (3+ yrs), School Marching Band — Lead Side Drummer (4 yrs), BDRCS COVID-19 volunteer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="certifications">
+    <h2 class="h">Certifications</h2>
+    <ul class="cert-list" style="margin-top:14px;">
+      <li>Data Analyst Associate</li>
+      <li>SQL (Advanced) Certificate</li>
+      <li>Problem Solving (Basic) Certificate</li>
+      <li>Competitive Programming Contest Participation</li>
+    </ul>
+  </section>
+
+  <section id="volunteering">
+    <h2 class="h">Volunteering</h2>
+    <div style="margin-top:14px;">
+      <div class="tl-row">
+        <div class="tl-date">Aug – Sep<br>2021</div>
+        <div>
+          <p class="tl-title">Operations Officer</p>
+          <p class="tl-org">Active Bangladesh <span class="tag">human rights</span></p>
+          <p class="proj-desc" style="margin-top:-4px;">Coordinated operations for the International Youth Olympiad 2021.</p>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">Jun 2020 –<br>Jan 2021</div>
+        <div>
+          <p class="tl-title">Student Volunteer</p>
+          <p class="tl-org">Bangladesh Red Crescent Society (BDRCS) <span class="tag">health</span></p>
+          <p class="proj-desc" style="margin-top:-4px;">Supported community health and relief efforts during the COVID-19 pandemic.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="foot-row">
+      <span>Rangpur Division, Bangladesh</span>
+      <span>
+        <a href="mailto:sajedrahman.work@gmail.com">Email</a> ·
+        <a href="https://www.linkedin.com/in/sajedrahmanorpo" target="_blank" rel="noopener">LinkedIn</a> ·
+        <a href="https://github.com/sajedrahmanorpo" target="_blank" rel="noopener">GitHub</a>
+      </span>
+    </div>
+  </footer>
+
+</main>
+
+</body>
+</html>
