@@ -3,404 +3,843 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sajed Rahman — CSE Undergraduate &amp; Competitive Programmer</title>
+<title>Sajed Rahman — Kotlin Android Developer & Competitive Programmer</title>
+<meta name="description" content="Sajed Rahman — Kotlin Android developer, competitive programmer and CSE undergraduate from Rangpur, Bangladesh.">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90' fill='%234ade80' font-family='monospace'>S</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --paper:#f7f7f4;
-    --paper-dim:#efeeea;
-    --ink:#14202b;
-    --muted:#5b6672;
-    --accent:#1e7f5c;
-    --accent-warm:#c9862e;
-    --line:#e0dfda;
-  }
+:root{
+  --bg:#0a0a0f; --card:#0e0e15; --border:rgba(255,255,255,.08);
+  --text:#e8e8ee; --muted:#8f8fa6; --accent:#4ade80; --accent-dim:rgba(74,222,128,.35);
+  --mono:'JetBrains Mono',monospace; --sans:'Inter',sans-serif; --disp:'Space Grotesk',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(ellipse 900px 550px at 90% -12%,rgba(74,222,128,.06),transparent 60%),
+    radial-gradient(ellipse 700px 500px at -15% 108%,rgba(56,189,248,.04),transparent 60%);
+  color:var(--text);font-family:var(--sans);line-height:1.6;
+}
+::selection{background:rgba(74,222,128,.3)}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#23233a;border-radius:8px}
 
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+.bg-dots{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:22px 22px;
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.5) 55%,rgba(0,0,0,.12) 100%);
+  mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.5) 55%,rgba(0,0,0,.12) 100%)}
 
-  body{
-    margin:0;
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size:16px;
-    line-height:1.55;
-    background-image:
-      radial-gradient(var(--line) 1px, transparent 1px);
-    background-size: 26px 26px;
-    background-position: -6px -6px;
-  }
+.container{max-width:1100px;margin:0 auto;padding:0 clamp(20px,5vw,48px);position:relative;z-index:1}
 
-  ::selection{ background:var(--accent); color:var(--paper); }
+/* ═══ TOP NAV ═══ */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(10,10,15,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;
+  padding:15px clamp(20px,5vw,48px)}
+.logo{font-family:var(--mono);font-size:.95rem;color:var(--text);text-decoration:none;font-weight:500}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-links a{font-family:var(--mono);font-size:.8rem;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--accent)}
+.nav-links a.cta{border:1px solid var(--accent-dim);padding:7px 14px;border-radius:8px;color:var(--accent)!important}
+#burger{display:none;background:none;border:0;cursor:pointer;width:26px;height:20px;position:relative}
+#burger span{position:absolute;left:0;width:100%;height:2px;background:var(--text);border-radius:2px;transition:.3s}
+#burger span:nth-child(1){top:0}#burger span:nth-child(2){top:9px}#burger span:nth-child(3){top:18px}
+#burger.on span:nth-child(1){top:9px;transform:rotate(45deg)}
+#burger.on span:nth-child(2){opacity:0}
+#burger.on span:nth-child(3){top:9px;transform:rotate(-45deg)}
 
-  a{ color:var(--ink); text-decoration-color: var(--line); text-underline-offset:3px; }
-  a:hover{ color:var(--accent); text-decoration-color: var(--accent); }
+/* ═══ HERO ═══ */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:110px;padding-bottom:30px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.kicker{font-family:var(--mono);color:var(--accent);font-size:.95rem;margin-bottom:14px}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(2.5rem,5.5vw,4.1rem);letter-spacing:-.02em;line-height:1.05}
+h1 span{color:var(--accent)}
+.hero h2{font-family:var(--disp);font-weight:500;font-size:clamp(1.35rem,3vw,1.9rem);color:var(--accent);margin-top:8px;letter-spacing:-.01em}
+.hero h3{font-weight:400;font-size:1rem;color:var(--muted);margin-top:8px}
+.intro{color:var(--muted);max-width:480px;margin-top:24px;font-size:1.02rem;line-height:1.7}
+.intro b{color:var(--text);font-weight:500}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
+.btn{font-family:var(--mono);font-size:.85rem;text-decoration:none;padding:12px 22px;border-radius:9px;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.btn.primary{background:var(--accent);color:#052e16;font-weight:500}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(74,222,128,.3)}
+.btn.ghost{border:1px solid var(--border);color:var(--muted);background:var(--card)}
+.btn.ghost:hover{border-color:var(--accent-dim);color:var(--accent)}
 
-  .mono{ font-family:'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+/* ── code window ── */
+.window{background:#10101a;border:1px solid rgba(255,255,255,.09);border-radius:12px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.window-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.07)}
+.dots{display:flex;gap:6px}
+.dots i{width:11px;height:11px;border-radius:50%}
+.dots i:nth-child(1){background:#ff5f57}
+.dots i:nth-child(2){background:#febc2e}
+.dots i:nth-child(3){background:#28c840}
+.file{font-family:var(--mono);font-size:.75rem;color:#8f8fa6;margin-left:6px}
+.ts{margin-left:auto;font-family:var(--mono);font-size:.62rem;background:#3178c6;color:#fff;padding:2px 8px;border-radius:4px}
+pre{font-family:var(--mono);font-size:.82rem;line-height:1.85;padding:22px 20px;min-height:290px;color:#a9b1c6;overflow-x:auto}
+.kw{color:#c792ea}.vr{color:#82aaff}.pr{color:#e5c07b}.st{color:#98c379}.bo{color:#d19a66}.pn{color:#7d8590}
+.caret{display:inline-block;width:8px;height:1.05em;background:#4ade80;vertical-align:text-bottom;border-radius:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
 
-  .wrap{
-    max-width:760px;
-    margin:0 auto;
-    padding:0 28px;
-  }
+.hero-bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:60px;padding-top:24px;border-top:1px solid var(--border)}
+.socials{display:flex;gap:12px}
+.socials a{display:grid;place-items:center;width:38px;height:38px;border:1px solid var(--border);border-radius:9px;background:var(--card);color:var(--muted);text-decoration:none;font-family:var(--mono);font-size:.72rem;transition:.2s}
+.socials a:hover{color:var(--accent);border-color:var(--accent-dim);transform:translateY(-2px)}
+.socials svg{width:17px;height:17px;fill:currentColor}
+.loc{font-family:var(--mono);font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:8px}
+.loc svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2}
 
-  /* ---------- top bar ---------- */
-  header.top{
-    position:sticky; top:0; z-index:20;
-    background:rgba(247,247,244,0.88);
-    backdrop-filter:saturate(140%) blur(6px);
-    border-bottom:1px solid var(--line);
-  }
-  .top-inner{
-    max-width:760px; margin:0 auto; padding:14px 28px;
-    display:flex; align-items:center; justify-content:space-between;
-    gap:16px;
-  }
-  .top-inner .brand{
-    font-weight:600; font-size:15px; letter-spacing:0.2px;
-  }
-  nav.tabs{ display:flex; gap:18px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--muted); }
-  nav.tabs a{ color:var(--muted); text-decoration:none; }
-  nav.tabs a:hover{ color:var(--accent); }
+/* ═══ SECTIONS ═══ */
+section{padding:100px 0}
+.sec-head{display:flex;align-items:center;gap:14px;margin-bottom:48px}
+.sec-num{font-family:var(--mono);color:var(--accent);font-size:.9rem}
+.sec-title{font-family:var(--disp);font-size:clamp(1.4rem,3vw,1.8rem);font-weight:700;white-space:nowrap}
+.sec-line{flex:1;height:1px;background:var(--border)}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
 
-  /* ---------- hero ---------- */
-  .hero{
-    padding:64px 0 40px;
-    display:grid;
-    grid-template-columns: 1fr auto;
-    gap:32px;
-    align-items:start;
-  }
-  h1.name{
-    font-size:clamp(32px, 5vw, 44px);
-    font-weight:700;
-    margin:0 0 6px;
-    letter-spacing:-0.01em;
-  }
-  .role-line{
-    color:var(--muted);
-    font-size:16px;
-    margin:0 0 18px;
-  }
-  .pitch{
-    max-width:52ch;
-    font-size:16px;
-    margin:0 0 20px;
-  }
-  .contact-row{
-    display:flex; flex-wrap:wrap; gap:6px 14px;
-    font-family:'IBM Plex Mono',monospace;
-    font-size:12.5px;
-    color:var(--muted);
-  }
-  .contact-row a{ color:var(--muted); }
-  .contact-row a:hover{ color:var(--accent); }
-  .contact-row span.dot{ color:var(--line); }
+/* about */
+.about-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:start}
+.about-grid p{color:var(--muted);margin-bottom:16px;font-size:1rem}
+.about-grid p b{color:var(--text);font-weight:500}
+.hl{color:var(--accent)}
 
-  /* rating badge — the one bold centerpiece */
-  .rating-card{
-    justify-self:end;
-    border:1px solid var(--ink);
-    border-radius:10px;
-    background:var(--ink);
-    color:var(--paper);
-    padding:16px 18px;
-    min-width:230px;
-    max-width:260px;
-    opacity:0;
-    transform:translateY(6px);
-    animation: rise 0.6s ease-out 0.15s forwards;
-  }
-  @media (prefers-reduced-motion: reduce){
-    .rating-card{ animation:none; opacity:1; transform:none; }
-  }
-  @keyframes rise{ to{ opacity:1; transform:translateY(0); } }
-  .rating-card .row{
-    display:flex; justify-content:space-between; align-items:baseline;
-    font-family:'IBM Plex Mono',monospace;
-    font-size:12.5px;
-    padding:5px 0;
-  }
-  .rating-card .row + .row{ border-top:1px solid rgba(247,247,244,0.14); }
-  .rating-card .row.award-row{ display:block; line-height:1.5; }
-  .rating-card .row.award-row .val{ font-size:11.5px; }
-  .rating-card .plat{ color:rgba(247,247,244,0.6); }
-  .rating-card .val{ color:var(--paper); font-weight:500; }
-  .rating-card .val.up{ color:#7fd6ae; }
+/* ═══ CODE QUOTE CARD — compact, no caption ═══ */
+.quote-window{border:1px solid rgba(255,255,255,.09);border-radius:14px;overflow:hidden;
+  margin-bottom:14px;background:#10101a;
+  box-shadow:0 14px 34px -14px rgba(0,0,0,.6);display:flex;flex-direction:column;transition:.25s}
+.quote-window:hover{transform:translateY(-4px);box-shadow:0 20px 44px -16px rgba(0,0,0,.65)}
+.qw-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.07)}
+.qw-file{font-family:var(--mono);font-size:.68rem;color:#8f8fa6;margin-left:4px}
+.qw-chip{margin-left:auto;font-family:var(--mono);font-size:.56rem;background:#3572A5;color:#fff;padding:2px 7px;border-radius:4px}
+.qw-body{padding:14px 20px 16px}
+.qw-body pre{font-family:var(--mono);font-size:.78rem;line-height:2;color:#e8e8ee;min-height:0;padding:0;overflow:visible}
+.qw-kw{color:#c792ea}
+.qw-fn{color:#98c379}
+.qw-pn{color:#8f8fa6}
+.qw-caret{display:inline-block;width:7px;height:.95em;background:#4ade80;vertical-align:text-bottom;border-radius:2px;animation:blink 1s steps(1) infinite}
 
-  /* ---------- sections ---------- */
-  section{ padding:36px 0; border-top:1px solid var(--line); }
-  section:first-of-type{ border-top:none; }
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{border:1px solid var(--border);background:var(--card);border-radius:12px;padding:20px 14px;text-align:center}
+.stat .n{font-family:var(--disp);font-size:1.6rem;font-weight:700;color:var(--accent)}
+.stat .l{font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;letter-spacing:.04em}
 
-  h2.h{
-    font-size:22px;
-    font-weight:600;
-    margin:0 0 4px;
-    display:inline-block;
-  }
-  h2.h::after{
-    content:"";
-    display:block;
-    width:34px; height:3px;
-    background:var(--accent);
-    margin-top:8px;
-  }
-  .section-intro{ color:var(--muted); font-size:14.5px; margin:14px 0 22px; max-width:56ch; }
+/* ═══ SKILLS — card grid ═══ */
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.skill-card{border:1px solid var(--border);background:var(--card);border-radius:14px;padding:24px;
+  display:flex;flex-direction:column;gap:18px;transition:.25s}
+.skill-card:hover{transform:translateY(-4px);border-color:var(--accent-dim);box-shadow:0 16px 40px -18px rgba(0,0,0,.55)}
+.skill-head{display:flex;align-items:center;gap:13px}
+.skill-head .x-icon{width:42px;height:42px;border-radius:10px}
+.skill-head .x-icon svg{width:20px;height:20px}
+.skill-head h3{font-family:var(--disp);font-size:1rem;font-weight:500;line-height:1.25}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-family:var(--mono);font-size:.72rem;color:var(--muted);border:1px solid var(--border);
+  background:rgba(255,255,255,.02);border-radius:999px;padding:6px 13px;transition:.2s;cursor:default}
+.pill:hover{color:var(--accent);border-color:var(--accent-dim);transform:translateY(-1px)}
+.pill.main{background:var(--accent);color:#052e16;border-color:var(--accent);font-weight:500}
+.pill.main:hover{color:#052e16;box-shadow:0 4px 16px rgba(74,222,128,.3)}
 
-  /* spec-sheet style rows (skills) */
-  .spec{ display:grid; grid-template-columns: 140px 1fr; gap:8px 18px; font-size:15px; }
-  .spec dt{ color:var(--muted); font-family:'IBM Plex Mono',monospace; font-size:12.5px; padding-top:2px; }
-  .spec dd{ margin:0; padding-bottom:10px; }
+/* languages — animated bars */
+.lang-strip{margin-top:22px;border:1px solid var(--border);background:var(--card);border-radius:14px;
+  padding:24px 28px;display:flex;align-items:center;gap:32px;flex-wrap:wrap;transition:.25s}
+.lang-strip:hover{border-color:var(--accent-dim)}
+.lang-strip .head{display:flex;align-items:center;gap:13px;flex-shrink:0}
+.lang-strip .head h3{font-family:var(--disp);font-size:1rem;font-weight:500}
+.lang-bars{flex:1;min-width:240px;display:flex;flex-direction:column;gap:18px}
+.lang-bar .lang-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+.lang-bar b{font-family:var(--disp);font-size:.92rem;font-weight:500}
+.lang-bar span{font-family:var(--mono);font-size:.64rem;color:var(--muted)}
+.track{height:5px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}
+.fill{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#10b981,#4ade80);width:0;transition:width 1.2s ease}
+.fill.d1{transition-delay:.15s}
 
-  /* timeline rows: date | content (experience/education/volunteering) */
-  .tl-row{
-    display:grid;
-    grid-template-columns: 130px 1fr;
-    gap:6px 20px;
-    padding:16px 0;
-  }
-  .tl-row + .tl-row{ border-top:1px dashed var(--line); }
-  .tl-date{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); padding-top:3px; }
-  .tl-title{ font-weight:600; font-size:16px; margin:0 0 2px; }
-  .tl-org{ color:var(--muted); font-size:14px; margin:0 0 8px; }
-  .tl-org .tag{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--accent-warm); border:1px solid var(--accent-warm); padding:1px 6px; margin-left:8px; }
-  ul.bullets{ margin:0; padding-left:18px; font-size:14.5px; }
-  ul.bullets li{ margin-bottom:4px; }
-  ul.bullets li::marker{ color:var(--accent); }
+/* projects */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.proj{border:1px solid var(--border);background:var(--card);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:.25s}
+.proj:hover{transform:translateY(-5px);border-color:var(--accent-dim);box-shadow:0 20px 44px -18px rgba(0,0,0,.6)}
+.proj-img{position:relative;height:185px;overflow:hidden;background:linear-gradient(135deg,#0f766e,#134e4a)}
+.proj-img img{width:100%;height:100%;object-fit:cover;opacity:.85;transition:transform .5s ease}
+.proj:hover .proj-img img{transform:scale(1.06)}
+.proj-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,18,.55),transparent 55%)}
+.proj-badge{position:absolute;top:12px;left:12px;z-index:2;font-family:var(--mono);font-size:.62rem;
+  color:#052e16;background:var(--accent);padding:4px 10px;border-radius:999px;letter-spacing:.05em;font-weight:500}
+.proj-body{padding:20px 24px 24px;display:flex;flex-direction:column;gap:12px;flex:1}
+.proj-top{display:flex;justify-content:space-between;align-items:center}
+.proj-links{display:flex;gap:12px;align-items:center}
+.proj-links a{color:var(--muted);transition:.2s}
+.proj-links a:hover{color:var(--accent)}
+.proj-links svg{width:18px;height:18px;fill:currentColor;stroke:none}
+.proj h3{font-family:var(--disp);font-size:1.12rem}
+.proj ul{list-style:none;color:var(--muted);font-size:.88rem;flex:1}
+.proj ul li{padding-left:16px;position:relative;margin-bottom:6px}
+.proj ul li::before{content:'▸';position:absolute;left:0;color:var(--accent)}
+.proj ul li b{color:var(--text);font-weight:500}
+.tech{display:flex;flex-wrap:wrap;gap:14px;border-top:1px solid var(--border);padding-top:12px}
+.tech span{font-family:var(--mono);font-size:.7rem;color:var(--accent)}
+.more{margin-top:24px;text-align:center;font-family:var(--mono);font-size:.8rem}
+.more a{color:var(--muted);text-decoration:none;transition:.2s}
+.more a:hover{color:var(--accent)}
 
-  /* projects */
-  .proj{ padding:18px 0; }
-  .proj + .proj{ border-top:1px dashed var(--line); }
-  .proj-head{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap; }
-  .proj-head h3{ font-size:17px; margin:0; font-weight:600; }
-  .proj-date{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); }
-  .proj-desc{ color:var(--muted); font-size:14.5px; margin:4px 0 10px; }
-  .proj-meta{ font-size:13px; margin-top:10px; }
-  .proj-meta .mono{ color:var(--muted); }
-  .proj-meta a{ font-family:'IBM Plex Mono',monospace; font-size:12.5px; }
+/* vector icons */
+.x-icon{width:50px;height:50px;border-radius:12px;background:rgba(74,222,128,.08);display:grid;place-items:center;flex-shrink:0}
+.x-icon svg{width:24px;height:24px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
-  /* cp stat strip */
-  .cp-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:18px; }
-  .cp-item{ border:1px solid var(--line); padding:14px 16px; }
-  .cp-item .plat{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; }
-  .cp-item .handle{ font-family:'IBM Plex Mono',monospace; font-size:15px; margin:6px 0 2px; }
-  .cp-item .stat{ font-size:13.5px; color:var(--muted); }
-  .cp-note{ font-size:14px; color:var(--muted); }
-  .award{ margin-top:14px; font-size:14.5px; padding:10px 14px; border-left:2px solid var(--accent-warm); background:var(--paper-dim); }
+/* experience / education cards */
+.xgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.xcard{border:1px solid var(--border);background:var(--card);border-radius:14px;padding:28px;transition:.25s}
+.xcard:hover{transform:translateY(-4px);border-color:var(--accent-dim);box-shadow:0 16px 40px -18px rgba(0,0,0,.55)}
+.xcard-top{display:flex;gap:16px;align-items:flex-start;margin-bottom:16px}
+.xcard h4{font-family:var(--disp);font-size:1.12rem;font-weight:500;line-height:1.3}
+.xcard .org{color:var(--accent);font-size:.88rem;margin-top:2px}
+.x-date{display:inline-block;font-family:var(--mono);font-size:.64rem;color:var(--muted);border:1px solid var(--border);padding:4px 11px;border-radius:999px;margin-top:8px}
+.xcard ul{list-style:none;color:var(--muted);font-size:.9rem}
+.xcard ul li{padding-left:16px;position:relative;margin-bottom:7px}
+.xcard ul li::before{content:'▸';position:absolute;left:0;color:var(--accent)}
+.xcard ul li b{color:var(--text);font-weight:500}
 
-  /* certifications */
-  .cert-list{ list-style:none; margin:0; padding:0; font-size:14.5px; }
-  .cert-list li{ padding:8px 0; display:flex; gap:10px; }
-  .cert-list li + li{ border-top:1px dashed var(--line); }
-  .cert-list li::before{ content:"·"; color:var(--accent); font-weight:700; }
+/* contests */
+.contest-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:22px;margin-bottom:24px}
+.contest{border:1px solid var(--border);background:var(--card);border-radius:14px;padding:34px 28px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;transition:.25s}
+.contest:hover{transform:translateY(-5px);border-color:var(--accent-dim);box-shadow:0 20px 44px -18px rgba(0,0,0,.6)}
+.c-icon{width:64px;height:64px;border-radius:50%;background:rgba(74,222,128,.08);display:grid;place-items:center;flex-shrink:0}
+.c-icon svg{width:30px;height:30px;stroke:var(--accent);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.contest h4{font-family:var(--disp);font-size:1.14rem;font-weight:500;line-height:1.35}
+.contest .c-org{color:var(--accent);font-size:.9rem}
+.contest .c-date{font-family:var(--mono);font-size:.66rem;color:var(--muted)}
+.contest .tag{font-family:var(--mono);font-size:.58rem;background:var(--accent);color:#052e16;
+  padding:4px 12px;border-radius:999px;letter-spacing:.12em;font-weight:500}
+.contest .tag.outline{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.contest.gold{border-color:var(--accent-dim);background:rgba(74,222,128,.05)}
+.u-list{display:flex;flex-direction:column;gap:10px;width:100%;margin-top:4px;text-align:left}
+.u-item{display:flex;justify-content:space-between;align-items:center;gap:14px;
+  border:1px solid var(--border);background:rgba(255,255,255,.02);border-radius:9px;padding:12px 16px;transition:.2s}
+.u-item:hover{border-color:var(--accent-dim);background:rgba(74,222,128,.04)}
+.u-info{display:flex;flex-direction:column;gap:2px}
+.u-info b{font-family:var(--disp);font-size:.9rem;color:var(--text);font-weight:500}
+.u-info span{font-size:.72rem;color:var(--muted);line-height:1.4}
+.u-date{font-family:var(--mono);font-size:.62rem;color:var(--accent);white-space:nowrap}
 
-  footer{
-    padding:40px 0 60px;
-    color:var(--muted);
-    font-size:13.5px;
-  }
-  footer .foot-row{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:14px; align-items:baseline; }
-  footer a{ color:var(--muted); }
-  footer a:hover{ color:var(--accent); }
+/* achievements */
+.ach-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px}
+.ach-card{border:1px solid var(--border);background:var(--card);border-radius:14px;padding:26px}
+.ach-card h4{font-family:var(--mono);font-size:.75rem;color:var(--muted);font-weight:500;margin-bottom:18px;letter-spacing:.05em}
+.platform{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
+.platform:last-child{border-bottom:0}
+.platform .p-name{font-family:var(--disp);font-size:.98rem}
+.platform .p-name span{display:block;font-family:var(--mono);font-size:.68rem;color:var(--muted);margin-top:2px}
+.platform .p-val{font-family:var(--mono);font-size:.85rem;color:var(--accent);text-decoration:none}
+.platform .p-val:hover{text-decoration:underline}
+.cert{padding:11px 0;border-bottom:1px solid var(--border);color:var(--muted);font-size:.9rem}
+.cert:last-child{border-bottom:0}
+.cert b{color:var(--text);font-weight:500}
+.cert .by{font-family:var(--mono);font-size:.68rem;color:var(--accent);display:block;margin-top:2px}
 
-  @media (max-width:640px){
-    .hero{ grid-template-columns:1fr; }
-    .rating-card{ justify-self:start; width:100%; }
-    .spec{ grid-template-columns:1fr; }
-    .spec dt{ padding-top:0; }
-    .tl-row{ grid-template-columns:1fr; }
-    nav.tabs{ display:none; }
-    .cp-grid{ grid-template-columns:1fr; }
-  }
+/* contact */
+#contact{text-align:center;padding:130px 0}
+#contact .sec-head{justify-content:center;margin-bottom:36px}
+#contact h2.big{font-family:var(--disp);font-size:clamp(2rem,4.5vw,2.9rem);font-weight:700;margin-bottom:18px}
+#contact h2.big span{color:var(--accent)}
+#contact p{color:var(--muted);max-width:520px;margin:0 auto 32px}
+.mail-btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.9rem;color:var(--accent);border:1px solid var(--accent-dim);background:var(--card);padding:15px 28px;border-radius:10px;text-decoration:none;transition:.2s}
+.mail-btn:hover{background:rgba(74,222,128,.06);transform:translateY(-2px);box-shadow:0 8px 30px rgba(74,222,128,.15)}
+.mail-btn svg{width:17px;height:17px;fill:currentColor}
+
+footer{border-top:1px solid var(--border);padding:26px 0}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:960px){
+  .hero-grid{grid-template-columns:1fr;gap:48px}
+  .about-grid,.ach-grid,.xgrid{grid-template-columns:1fr}
+  .contest-grid{grid-template-columns:1fr}
+  .skills-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:760px){
+  #burger{display:block}
+  .nav-links{position:fixed;top:56px;left:0;right:0;flex-direction:column;gap:0;
+    background:rgba(10,10,15,.97);border-bottom:1px solid var(--border);display:none;padding:10px 0}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:14px clamp(20px,5vw,48px);width:100%}
+  .hero-bottom{justify-content:center}
+}
+@media(max-width:600px){
+  .skills-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+  .fill{width:var(--w,100%)!important}
+}
 </style>
 </head>
 <body>
 
-<header class="top">
-  <div class="top-inner">
-    <div class="brand">Sajed Rahman</div>
-    <nav class="tabs">
-      <a href="#about">about</a>
+<div class="bg-dots"></div>
+
+<!-- ═══ TOP NAV ═══ -->
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#home">sajed<span>.ME</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="#about" class="active">about</a>
+      <a href="#skills">skills</a>
       <a href="#projects">projects</a>
-      <a href="#cp">cp</a>
       <a href="#experience">experience</a>
+      <a href="#education">education</a>
       <a href="#contact">contact</a>
-    </nav>
+      <a class="cta" href="resume.pdf" download>resume</a>
+    </div>
+    <button id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<header id="home" class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <p class="kicker">Assalamualikum, this is</p>
+        <h1>Sajed Rahman<span>.</span></h1>
+        <h2>Kotlin Android Developer.</h2>
+        <h3>Competitive Programmer · CSE Undergraduate</h3>
+        <p class="intro">I build native Android apps with <b>Kotlin</b> and REST APIs, solve problems with
+          <b>C++</b> on Codeforces, and analyze data with <b>SQL</b> — recently completed a data science
+          internship at <b>CodeAlpha</b>. Open to internships &amp; remote work.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="#projects">View Projects</a>
+          <a class="btn ghost" href="resume.pdf" download>Resume ↓</a>
+        </div>
+      </div>
+      <div>
+        <div class="window">
+          <div class="window-bar">
+            <div class="dots"><i></i><i></i><i></i></div>
+            <span class="file">profile.ts</span>
+            <span class="ts">TS</span>
+          </div>
+          <pre><code id="code"></code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-bottom">
+      <div class="socials">
+        <a href="https://github.com/sajedrahmanorpo" target="_blank" aria-label="GitHub" title="GitHub">
+          <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+        <a href="https://www.linkedin.com/in/sajedrahmanorpo" target="_blank" aria-label="LinkedIn" title="LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a>
+        <a href="https://leetcode.com/u/sajedrahman" target="_blank" aria-label="LeetCode" title="LeetCode">
+          <svg viewBox="0 0 24 24"><path d="M13.483 0a1.374 1.374 0 0 0-.971.457L7.28 6.36a1.368 1.368 0 0 0-.286.993l.213 2.482a1.368 1.368 0 0 0 1.185 1.185l2.482.213a1.368 1.368 0 0 0 .993-.287l6.152-5.895a1.374 1.374 0 0 0 .457-.97 1.374 1.374 0 0 0-.457-.971l-3.172-3.172A1.374 1.374 0 0 0 13.483 0zm-1.06 4.11a1.057 1.057 0 1 1 0 2.114 1.057 1.057 0 0 1 0-2.114zM7.993 8.685l-4.41 4.41a1.374 1.374 0 0 0-.457.97 1.374 1.374 0 0 0 .457.971l3.172 3.172a1.374 1.374 0 0 0 .97.457 1.374 1.374 0 0 0 .972-.457l4.41-4.41-1.198-1.198-3.103 3.103a.75.75 0 0 1-1.06 0l-1.98-1.98a.75.75 0 0 1 0-1.061l3.103-3.103-1.199-1.199z"/></svg></a>
+        <a href="https://codeforces.com/profile/sajedrahman" target="_blank" aria-label="Codeforces" title="Codeforces">CF</a>
+        <a href="https://www.codechef.com/users/sajedrahman" target="_blank" aria-label="CodeChef" title="CodeChef">CC</a>
+        <a href="mailto:sajedrahman.work@gmail.com" aria-label="Email" title="Email">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.24-8 4.76-8-4.76V6l8 4.75L20 6v2.24z"/></svg></a>
+      </div>
+      <div class="loc">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        Rangpur, Bangladesh
+      </div>
+    </div>
   </div>
 </header>
 
-<main class="wrap">
-
-  <section class="hero" style="border-top:none;">
-    <div>
-      <h1 class="name">Sajed Rahman</h1>
-      <p class="role-line">Undergraduate CSE student, competitive programmer, and Android developer — Rangpur, Bangladesh</p>
-      <p class="pitch">I think in algorithms and build fearlessly. Most days split between chasing Codeforces ratings and shipping small Kotlin apps that solve a real, specific problem.</p>
-      <div class="contact-row">
-        <a href="mailto:sajedrahman.work@gmail.com">sajedrahman.work@gmail.com</a>
-        <span class="dot">/</span>
-        <a href="https://www.linkedin.com/in/sajedrahmanorpo" target="_blank" rel="noopener">linkedin.com/in/sajedrahmanorpo</a>
-        <span class="dot">/</span>
-        <a href="https://github.com/sajedrahmanorpo" target="_blank" rel="noopener">github.com/sajedrahmanorpo</a>
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="container">
+    <div class="sec-head reveal"><span class="sec-num">01.</span><h2 class="sec-title">About Me</h2><div class="sec-line"></div></div>
+    <div class="about-grid">
+      <div class="reveal">
+        <p>Hello! I'm Sajed, a detail-oriented and fast-learning CSE undergraduate from
+          <span class="hl">Rangpur, Bangladesh</span>. I have hands-on experience building
+          <b>Kotlin Android applications</b>, integrating REST APIs, and applying data analysis
+          and modeling techniques through a data science internship and industry certifications
+          from <b>Deloitte</b> and <b>DataCamp</b>.</p>
+        <p>I'm comfortable working independently or in cross-functional teams — following structured
+          workflows, maintaining clear documentation, and delivering under deadlines. My competitive
+          programming background in <b>C++</b> keeps my problem-solving sharp.</p>
+        <p>I'm eager to bring strong analytical skills and a quick learning attitude to real-world
+          <b>AI/Data projects</b> in a hybrid, deadline-driven environment.</p>
       </div>
-    </div>
-    <div class="rating-card mono" aria-label="Competitive programming ratings">
-      <div class="row"><span class="plat">codeforces</span><span class="val">newbie · 1155</span></div>
-      <div class="row"><span class="plat">codechef</span><span class="val up">2★ rated</span></div>
-      <div class="row award-row"><span class="val">first CP champion — CSE FEST Tejgaon '24</span></div>
-    </div>
-  </section>
-
-  <section id="about">
-    <h2 class="h">About</h2>
-    <p class="section-intro" style="max-width:60ch;">
-      Currently pursuing a B.Sc. (Hons) in Computer Science and Engineering at Delta Computer Science College, Rangpur. Outside coursework, I do Android and web development, grind competitive programming, teach ICT, and occasionally write about computer science and technology. Off-screen: four years as lead side drummer in my school's marching band.
-    </p>
-  </section>
-
-  <section id="skills">
-    <h2 class="h">Skills</h2>
-    <dl class="spec" style="margin-top:18px;">
-      <dt>languages</dt><dd>C++, Kotlin, SQL</dd>
-      <dt>development</dt><dd>Android app development, web development</dd>
-      <dt>focus areas</dt><dd>Competitive programming, data analysis, artificial intelligence</dd>
-      <dt>leadership</dt><dd>Leadership, time management, community service</dd>
-    </dl>
-  </section>
-
-  <section id="projects">
-    <h2 class="h">Projects</h2>
-
-    <div class="proj">
-      <div class="proj-head">
-        <h3>UCL Match Predictor</h3>
-        <span class="proj-date">Jul – Sep 2026</span>
-      </div>
-      <p class="proj-desc">Logic-driven Kotlin application to analyze and predict UEFA Champions League match outcomes.</p>
-      <ul class="bullets">
-        <li>Custom predictor engine — prediction algorithms and business logic for score estimates</li>
-        <li>REST API client pulling real-time football data, wired into a clean, strongly-typed architecture</li>
-      </ul>
-      <p class="proj-meta"><span class="mono">Kotlin · REST APIs</span> — <a href="https://github.com/sajedrahmanorpo/My_UCL_Match_Predictor" target="_blank" rel="noopener">github.com/sajedrahmanorpo/My_UCL_Match_Predictor</a></p>
-    </div>
-
-    <div class="proj">
-      <div class="proj-head">
-        <h3>Tic-Tac-Toe Game (C++)</h3>
-        <span class="proj-date">Mar – Oct 2025</span>
-      </div>
-      <p class="proj-desc">CLI-based Tic-Tac-Toe with an unbeatable AI opponent — my first project.</p>
-      <ul class="bullets">
-        <li>Minimax decision-tree search evaluating all board states for optimal play</li>
-        <li>Interactive flow with move validation, dynamic board rendering, and replay, built with modular C++ functions</li>
-      </ul>
-      <p class="proj-meta"><span class="mono">C++ · Data Structures</span> — <a href="https://github.com/sajedrahmanorpo/Tic_Tac_Toe_Game" target="_blank" rel="noopener">github.com/sajedrahmanorpo/Tic_Tac_Toe_Game</a></p>
-    </div>
-  </section>
-
-  <section id="cp">
-    <h2 class="h">Competitive programming</h2>
-    <div class="cp-grid" style="margin-top:18px;">
-      <div class="cp-item">
-        <div class="plat">Codeforces</div>
-        <div class="handle">sajedrahman</div>
-        <div class="stat">Newbie · max rating 1155</div>
-      </div>
-      <div class="cp-item">
-        <div class="plat">CodeChef</div>
-        <div class="handle">sajedrahman</div>
-        <div class="stat">2★ rated</div>
-      </div>
-    </div>
-    <p class="cp-note">Also active on GitHub and LeetCode under the same handle.</p>
-    <p class="award">First-ever Competitive Programming Champion — <strong>CSE FEST Tejgaon 2024</strong></p>
-  </section>
-
-  <section id="experience">
-    <h2 class="h">Experience</h2>
-    <div class="tl-row" style="margin-top:14px;">
-      <div class="tl-date">Sep – Oct<br>2026</div>
       <div>
-        <p class="tl-title">Mobile Application Developer</p>
-        <p class="tl-org">CodeAlpha — remote, distributed team (Lucknow)</p>
-        <ul class="bullets">
-          <li>Hands-on mobile app development through practical, project-based tasks</li>
-          <li>Applied core programming and problem-solving skills to design and improve app features</li>
-          <li>Maintained professional communication and met deadlines in a fully remote team</li>
+        <!-- ══ compact code quote card ══ -->
+        <div class="quote-window reveal">
+          <div class="qw-bar">
+            <div class="dots"><i></i><i></i><i></i></div>
+            <span class="qw-file">philosophy.py</span>
+            <span class="qw-chip">PY</span>
+          </div>
+          <div class="qw-body">
+            <pre><span class="qw-kw">while</span> (noSuccess):
+    <span class="qw-fn">tryAgain</span><span class="qw-pn">()</span>
+
+<span class="qw-kw">if</span> (dead):
+    <span class="qw-kw">break</span><span class="qw-caret"></span></pre>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stat reveal" style="--d:.05s"><div class="n">1153</div><div class="l">CODEFORCES MAX RATING</div></div>
+          <div class="stat reveal" style="--d:.15s"><div class="n">2★</div><div class="l">CODECHEF RATING</div></div>
+          <div class="stat reveal" style="--d:.25s"><div class="n">5</div><div class="l">CERTIFICATIONS EARNED</div></div>
+          <div class="stat reveal" style="--d:.35s"><div class="n">1st</div><div class="l">CSE FEST 2K24 CHAMPION</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SKILLS ═══ -->
+<section id="skills">
+  <div class="container">
+    <div class="sec-head reveal"><span class="sec-num">02.</span><h2 class="sec-title">Technical Skills</h2><div class="sec-line"></div></div>
+
+    <div class="skills-grid">
+
+      <div class="skill-card reveal" style="--d:.02s">
+        <div class="skill-head">
+          <div class="x-icon">
+            <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          </div>
+          <h3>Android Development</h3>
+        </div>
+        <div class="pills">
+          <span class="pill main">Kotlin</span>
+          <span class="pill">OkHttp</span>
+          <span class="pill">Gson</span>
+          <span class="pill">REST API Integration</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" style="--d:.08s">
+        <div class="skill-head">
+          <div class="x-icon">
+            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <h3>Programming &amp; Problem Solving</h3>
+        </div>
+        <div class="pills">
+          <span class="pill main">C++</span>
+          <span class="pill">Data Structures &amp; Algorithms</span>
+          <span class="pill">Dynamic Programming</span>
+          <span class="pill">Graph Algorithms</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" style="--d:.14s">
+        <div class="skill-head">
+          <div class="x-icon">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <h3>Data Analysis</h3>
+        </div>
+        <div class="pills">
+          <span class="pill main">SQL</span>
+          <span class="pill">Data Cleaning</span>
+          <span class="pill">Data Modeling</span>
+          <span class="pill">Classification &amp; Regression</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" style="--d:.2s">
+        <div class="skill-head">
+          <div class="x-icon">
+            <svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+          </div>
+          <h3>Tools &amp; Practices</h3>
+        </div>
+        <div class="pills">
+          <span class="pill main">Git &amp; GitHub</span>
+          <span class="pill">Credential / Config Management</span>
+          <span class="pill">SQL &amp; DBMS</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" style="--d:.26s">
+        <div class="skill-head">
+          <div class="x-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <h3>Coursework Foundation</h3>
+        </div>
+        <div class="pills">
+          <span class="pill">Computer Architecture</span>
+          <span class="pill">Microprocessors &amp; 8086 Assembly</span>
+          <span class="pill">Numerical Methods</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" style="--d:.32s">
+        <div class="skill-head">
+          <div class="x-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>Collaboration &amp; Delivery</h3>
+        </div>
+        <div class="pills">
+          <span class="pill">Team Coordination</span>
+          <span class="pill">Technical Documentation</span>
+          <span class="pill">Remote / Hybrid Collaboration</span>
+          <span class="pill">Deadline-Driven Delivery</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- languages with bars -->
+    <div class="lang-strip reveal" style="--d:.38s">
+      <div class="head">
+        <div class="x-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h3>Languages</h3>
+      </div>
+      <div class="lang-bars">
+        <div class="lang-bar">
+          <div class="lang-top"><b>Bengali</b><span>Native / Bilingual</span></div>
+          <div class="track"><i class="fill" data-w="100"></i></div>
+        </div>
+        <div class="lang-bar">
+          <div class="lang-top"><b>English</b><span>Professional Working</span></div>
+          <div class="track"><i class="fill d1" data-w="82"></i></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section id="projects">
+  <div class="container">
+    <div class="sec-head reveal"><span class="sec-num">03.</span><h2 class="sec-title">Projects</h2><div class="sec-line"></div></div>
+    <div class="projects-grid">
+
+      <div class="proj reveal" style="--d:.05s">
+        <div class="proj-img">
+          <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80"
+               alt="Football stadium at night" loading="lazy" onerror="this.style.display='none'">
+          <span class="proj-badge">ANDROID APP</span>
+        </div>
+        <div class="proj-body">
+          <div class="proj-top">
+            <h3>Champions League Match Predictor</h3>
+            <div class="proj-links">
+              <a href="https://github.com/sajedrahmanorpo/My_UCL_Match_Predictor" target="_blank" aria-label="GitHub">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+            </div>
+          </div>
+          <ul>
+            <li>Native Android app consuming live football statistics via REST APIs to generate match predictions</li>
+            <li>Credential decoupling using <b>local.properties</b> — API keys never touch version control</li>
+            <li>Structured Git workflow maintained throughout development</li>
+          </ul>
+          <div class="tech"><span>Kotlin</span><span>OkHttp</span><span>Gson</span><span>REST APIs</span></div>
+        </div>
+      </div>
+
+      <div class="proj reveal" style="--d:.15s">
+        <div class="proj-img">
+          <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80"
+               alt="Data visualization abstract" loading="lazy" onerror="this.style.display='none'">
+          <span class="proj-badge">DATA SCIENCE</span>
+        </div>
+        <div class="proj-body">
+          <div class="proj-top">
+            <h3>Iris Classification Model</h3>
+            <div class="proj-links">
+              <a href="https://github.com/sajedrahmanorpo" target="_blank" aria-label="GitHub">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+            </div>
+          </div>
+          <ul>
+            <li>Implemented a classification model on the classic Iris dataset</li>
+            <li>Applied data cleaning and feature preparation techniques before training</li>
+            <li>Built during the CodeAlpha data science internship</li>
+          </ul>
+          <div class="tech"><span>Classification</span><span>Data Cleaning</span><span>Modeling</span></div>
+        </div>
+      </div>
+
+      <div class="proj reveal" style="--d:.25s">
+        <div class="proj-img">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
+               alt="Analytics dashboard with charts" loading="lazy" onerror="this.style.display='none'">
+          <span class="proj-badge">DATA SCIENCE</span>
+        </div>
+        <div class="proj-body">
+          <div class="proj-top">
+            <h3>Car Price &amp; Sales Prediction</h3>
+            <div class="proj-links">
+              <a href="https://github.com/sajedrahmanorpo" target="_blank" aria-label="GitHub">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+            </div>
+          </div>
+          <ul>
+            <li>Built regression models to predict car prices and sales figures</li>
+            <li>Applied data modeling techniques to prepare real-world datasets for analysis</li>
+            <li>Part of the CodeAlpha data science internship tasks</li>
+          </ul>
+          <div class="tech"><span>Regression</span><span>Data Modeling</span><span>Analytics</span></div>
+        </div>
+      </div>
+
+    </div>
+    <p class="more reveal"><a href="https://github.com/sajedrahmanorpo" target="_blank">← more on GitHub →</a></p>
+  </div>
+</section>
+
+<!-- ═══ EXPERIENCE ═══ -->
+<section id="experience">
+  <div class="container">
+    <div class="sec-head reveal"><span class="sec-num">04.</span><h2 class="sec-title">Where I've Worked</h2><div class="sec-line"></div></div>
+    <div class="xgrid">
+
+      <div class="xcard reveal" style="--d:.05s">
+        <div class="xcard-top">
+          <div class="x-icon">
+            <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          </div>
+          <div>
+            <h4>Mobile Application Developer</h4>
+            <div class="org">CodeAlpha · Remote</div>
+            <span class="x-date">Sep 2026 – Present</span>
+          </div>
+        </div>
+        <ul>
+          <li>Building hands-on Android app development experience with <b>Kotlin</b> through practical, project-based tasks</li>
+          <li>Designing and improving app features applying core programming and problem-solving skills</li>
         </ul>
       </div>
-    </div>
-  </section>
 
-  <section id="education">
-    <h2 class="h">Education</h2>
-    <div style="margin-top:14px;">
-      <div class="tl-row">
-        <div class="tl-date">2023 –<br>2027</div>
-        <div>
-          <p class="tl-title">B.Sc. (Hons), Computer Science &amp; Engineering</p>
-          <p class="tl-org">Delta Computer Science College, Rangpur <span class="tag">expected</span></p>
-          <p class="proj-desc" style="margin-top:-4px;">Coursework: data structures &amp; algorithms, DBMS, computer architecture &amp; microprocessors, numerical methods, assembly language.</p>
+      <div class="xcard reveal" style="--d:.15s">
+        <div class="xcard-top">
+          <div class="x-icon">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div>
+            <h4>Data Science Intern</h4>
+            <div class="org">CodeAlpha · Remote</div>
+            <span class="x-date">Jul 2026 – Aug 2026</span>
+          </div>
+        </div>
+        <ul>
+          <li>Implemented <b>classification</b> (Iris dataset) and <b>regression</b> (car price, sales prediction) models</li>
+          <li>Applied data cleaning and data modeling techniques to prepare datasets for analysis</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EDUCATION ═══ -->
+<section id="education">
+  <div class="container">
+    <div class="sec-head reveal"><span class="sec-num">05.</span><h2 class="sec-title">Where I've Studied</h2><div class="sec-line"></div></div>
+    <div class="xgrid">
+
+      <div class="xcard reveal" style="--d:.05s">
+        <div class="xcard-top">
+          <div class="x-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12.5V17c0 1.7 2.7 3 6 3s6-1.3 6-3v-4.5"/><path d="M22 10v6"/></svg>
+          </div>
+          <div>
+            <h4>B.Sc (Hons) in Computer Science &amp; Engineering</h4>
+            <div class="org">Delta Computer Science College, Rangpur</div>
+            <span class="x-date">Aug 2023 – Jul 2027 (Expected)</span>
+          </div>
+        </div>
+        <ul>
+          <li>Relevant coursework: Data Structures &amp; Algorithms, DBMS, Computer Architecture, Numerical Methods</li>
+        </ul>
+      </div>
+
+      <div class="xcard reveal" style="--d:.15s">
+        <div class="xcard-top">
+          <div class="x-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-4h6v4"/><path d="M9 12h.01M15 12h.01M12 12h.01"/></svg>
+          </div>
+          <div>
+            <h4>SSC &amp; HSC, Science</h4>
+            <div class="org">Bir Uttam Shaheed Samad School and College, Rangpur</div>
+            <span class="x-date">Jan 2017 – Feb 2021</span>
+          </div>
+        </div>
+        <ul>
+          <li><b>GPA 5.00</b> — one of only two students in the batch to complete the full decade-plus schooling at this institution</li>
+          <li>Lead Side Drummer, School Marching Band (4 yrs)</li>
+          <li>Bangladesh Scouts (3+ yrs) · BDRCS COVID-19 Volunteer</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTESTS & CERTIFICATIONS ═══ -->
+<section id="achievements">
+  <div class="container">
+    <div class="sec-head reveal"><span class="sec-num">06.</span><h2 class="sec-title">Contests &amp; Certifications</h2><div class="sec-line"></div></div>
+
+    <div class="contest-grid">
+
+      <div class="contest gold reveal" style="--d:.05s">
+        <span class="tag">WINNER</span>
+        <div class="c-icon">
+          <svg viewBox="0 0 24 24"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v6a5 5 0 0 1-10 0V4z"/><path d="M17 5h3a2 2 0 0 1-2 4h-1"/><path d="M7 5H4a2 2 0 0 0 2 4h1"/></svg>
+        </div>
+        <h4>First Place<br>CSE Fest 2K24</h4>
+        <div class="c-org">Tejgaon College</div>
+        <div class="c-date">Oct 2024 · Dhaka</div>
+      </div>
+
+      <div class="contest reveal" style="--d:.15s">
+        <span class="tag outline">PARTICIPANT</span>
+        <div class="u-list">
+          <div class="u-item">
+            <div class="u-info">
+              <b>IUPC</b>
+              <span>Islamic University of Technology (IUT) · Gazipur, Dhaka</span>
+            </div>
+            <span class="u-date">Aug 2026</span>
+          </div>
+          <div class="u-item">
+            <div class="u-info">
+              <b>RDCPC</b>
+              <span>Haji Danesh Science &amp; Technology University (HSTU) · Dinajpur</span>
+            </div>
+            <span class="u-date">Jul 2025</span>
+          </div>
+          <div class="u-item">
+            <div class="u-info">
+              <b>RDCPC</b>
+              <span>Begum Rokeya University (BRUR) · Rangpur</span>
+            </div>
+            <span class="u-date">Nov 2024</span>
+          </div>
         </div>
       </div>
-      <div class="tl-row">
-        <div class="tl-date">2008 –<br>2021</div>
-        <div>
-          <p class="tl-title">PSC · JSC · SSC · HSC, Science Group</p>
-          <p class="tl-org">Bir Uttam Shaheed Samad School and College, Rangpur Cantonment <span class="tag">GPA 5.00</span></p>
-          <p class="proj-desc" style="margin-top:-4px;">13 years of continuous schooling at the same institute — one of only two students in the batch to do the entire stretch. Activities: Bangladesh Scouts (3+ yrs), School Marching Band — Lead Side Drummer (4 yrs), BDRCS COVID-19 volunteer.</p>
+
+    </div>
+
+    <div class="ach-grid">
+      <div class="ach-card reveal" style="--d:.05s">
+        <h4>COMPETITIVE PROGRAMMING</h4>
+        <div class="platform">
+          <div class="p-name">Codeforces<span>handle: sajedrahman</span></div>
+          <a class="p-val" href="https://codeforces.com/profile/sajedrahman" target="_blank">max 1153 · Newbie →</a>
+        </div>
+        <div class="platform">
+          <div class="p-name">CodeChef<span>handle: sajedrahman</span></div>
+          <a class="p-val" href="https://www.codechef.com/users/sajedrahman" target="_blank">2★ rated →</a>
+        </div>
+        <div class="platform">
+          <div class="p-name">LeetCode<span>handle: sajedrahman</span></div>
+          <a class="p-val" href="https://leetcode.com/u/sajedrahman" target="_blank">active profile →</a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section id="certifications">
-    <h2 class="h">Certifications</h2>
-    <ul class="cert-list" style="margin-top:14px;">
-      <li>Data Analyst Associate</li>
-      <li>SQL (Advanced) Certificate</li>
-      <li>Problem Solving (Basic) Certificate</li>
-      <li>Competitive Programming Contest Participation</li>
-    </ul>
-  </section>
-
-  <section id="volunteering">
-    <h2 class="h">Volunteering</h2>
-    <div style="margin-top:14px;">
-      <div class="tl-row">
-        <div class="tl-date">Aug – Sep<br>2021</div>
-        <div>
-          <p class="tl-title">Operations Officer</p>
-          <p class="tl-org">Active Bangladesh <span class="tag">human rights</span></p>
-          <p class="proj-desc" style="margin-top:-4px;">Coordinated operations for the International Youth Olympiad 2021.</p>
-        </div>
-      </div>
-      <div class="tl-row">
-        <div class="tl-date">Jun 2020 –<br>Jan 2021</div>
-        <div>
-          <p class="tl-title">Student Volunteer</p>
-          <p class="tl-org">Bangladesh Red Crescent Society (BDRCS) <span class="tag">health</span></p>
-          <p class="proj-desc" style="margin-top:-4px;">Supported community health and relief efforts during the COVID-19 pandemic.</p>
-        </div>
+      <div class="ach-card reveal" style="--d:.15s">
+        <h4>CERTIFICATIONS</h4>
+        <div class="cert"><b>Data Analyst Associate</b><span class="by">DataCamp · Sep 2026</span></div>
+        <div class="cert"><b>Data Analytics Job Simulation</b><span class="by">Deloitte Australia · Sep 2026</span></div>
+        <div class="cert"><b>SQL (Advanced) Certificate</b><span class="by">HackerRank · Sep 2026</span></div>
+        <div class="cert"><b>CodeChef Camp 2.0</b><span class="by">Shohoj Coding · Jun 2026</span></div>
+        <div class="cert"><b>Problem Solving (Basic) Certificate</b><span class="by">HackerRank · Dec 2025</span></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <footer id="contact">
-    <div class="foot-row">
-      <span>Rangpur Division, Bangladesh</span>
-      <span>
-        <a href="mailto:sajedrahman.work@gmail.com">Email</a> ·
-        <a href="https://www.linkedin.com/in/sajedrahmanorpo" target="_blank" rel="noopener">LinkedIn</a> ·
-        <a href="https://github.com/sajedrahmanorpo" target="_blank" rel="noopener">GitHub</a>
-      </span>
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="container">
+    <div class="sec-head reveal" style="display:inline-flex"><span class="sec-num">07.</span><h2 class="sec-title">What's Next?</h2></div>
+    <div class="reveal" style="--d:.1s">
+      <h2 class="big">Get In <span>Touch</span></h2>
+      <p>My inbox is always open — whether you have an opportunity in Android development, AI or data,
+        a question about competitive programming, or just want to say hi. I'll do my best to get back to you!</p>
+      <a class="mail-btn" href="mailto:sajedrahman.work@gmail.com">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.24-8 4.76-8-4.76V6l8 4.75L20 6v2.24z"/></svg>
+        Say Hello
+      </a>
     </div>
-  </footer>
+  </div>
+</section>
 
-</main>
+<footer>
+  <div class="container foot">
+    <span>© <span id="year"></span> Sajed Rahman</span>
+    <span style="display:inline-flex;align-items:center;gap:7px">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      Rangpur, Bangladesh
+    </span>
+  </div>
+</footer>
 
+<script>
+/* ── profile.ts typing ── */
+const L=[
+  [["kw","const "],["vr","sajed"],["pn"," = {"]],
+  [["pr","  role"],["pn",": "],["st",'"Kotlin Android Developer"'],["pn",","]],
+  [["pr","  study"],["pn",": "],["st",'"B.Sc. CSE"'],["pn",","]],
+  [["pr","  android"],["pn",": ["],["st",'"Kotlin"'],["pn",", "],["st",'"OkHttp"'],["pn",", "],["st",'"Gson"'],["pn","],"]],
+  [["pr","  data"],["pn",": ["],["st",'"SQL"'],["pn",", "],["st",'"Modeling"'],["pn",", "],["st",'"Analysis"'],["pn","],"]],
+  [["pr","  codeforces"],["pn",": "],["st",'"sajedrahman · max 1153"'],["pn",","]],
+  [["pr","  location"],["pn",": "],["st",'"Rangpur, Bangladesh"'],["pn",","]],
+  [["pr","  openTo"],["pn",": ["],["st",'"Internships"'],["pn",", "],["st",'"Remote Work"'],["pn","],"]],
+  [["pr","  hireable"],["pn",": "],["bo","true"],["pn",","]],
+  [["pn","};"]]
+];
+const code=document.getElementById("code");
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function renderInstant(){code.innerHTML=L.map(l=>l.map(([c,t])=>`<span class="${c}">${t}</span>`).join("")).join("\n");}
+async function type(){
+  const caret=document.createElement("span");caret.className="caret";code.appendChild(caret);
+  for(let i=0;i<L.length;i++){
+    for(const[cls,txt]of L[i]){
+      const s=document.createElement("span");s.className=cls;code.insertBefore(s,caret);
+      for(const ch of txt){s.textContent+=ch;await sleep(12+Math.random()*22);}
+    }
+    if(i<L.length-1){code.insertBefore(document.createTextNode("\n"),caret);await sleep(60);}
+  }
+}
+setTimeout(()=>reduce?renderInstant():type(),500);
+
+/* ── scroll reveal ── */
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}
+}),{threshold:.12});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+
+/* ── language bars fill ── */
+const fio=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.style.width=e.target.dataset.w+"%";fio.unobserve(e.target);}
+}),{threshold:.5});
+document.querySelectorAll(".fill").forEach(el=>fio.observe(el));
+
+/* ── active nav link ── */
+const navA=[...document.querySelectorAll(".nav-links a[href^='#']")];
+const sio=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting)navA.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+e.target.id));
+}),{rootMargin:"-40% 0px -55% 0px"});
+document.querySelectorAll("section[id],header[id]").forEach(s=>sio.observe(s));
+
+/* ── mobile menu ── */
+const burger=document.getElementById("burger"),navLinks=document.getElementById("navLinks");
+burger.addEventListener("click",()=>{burger.classList.toggle("on");navLinks.classList.toggle("open");});
+navLinks.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{
+  burger.classList.remove("on");navLinks.classList.remove("open");}));
+
+document.getElementById("year").textContent=new Date().getFullYear();
+</script>
 </body>
 </html>
